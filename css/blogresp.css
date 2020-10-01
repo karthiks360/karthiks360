@@ -1,0 +1,98 @@
+@media only screen and (max-width: 600px){
+    .ifdiv{
+    
+    border-width=20px;
+    border-color: white;
+    border-style: solid;
+    overflow: hidden; 
+    margin: 15px auto; 
+    max-width:100%;
+}
+
+.ifdiv iframe{
+    border-width: 0px;
+    border:  none; 
+    margin-left: 0px; 
+    height: 1050px;
+    margin-top: -235px;
+    
+    
+    width: 100%;
+    
+    top:0; left:0; 
+    bottom:0; 
+    right:0; 
+     
+    border:none; 
+     
+    padding:0; 
+    overflow:hidden; 
+    z-index:999999;"
+}
+    /* SELECT DROP DOWN STARTS*/
+.monselect{
+    width: 70%;
+    height: 5%;
+    border: none;
+    background-color:aliceblue;
+    
+}
+
+/* SELECT DD ENDS*/
+    .refresh{
+        margin-left: 5%;
+        
+    }
+    
+    
+}
+
+
+
+@media screen and (min-width: 1024px) and (max-height: 1310px) {
+
+    
+    
+
+.ifdiv{
+    
+    border-width=20px;
+    border-color: white;
+    border-style: solid;
+    overflow: hidden; 
+    margin: 15px auto; 
+    max-width:100%
+}
+
+.ifdiv iframe{
+    border-width: 0px;
+    border:  none; 
+    margin-left: 0px; 
+    height: 1050px;
+    margin-top: -245px;
+    
+    
+    width: 100%;
+    
+    top:0; left:0; 
+    bottom:0; 
+    right:0; 
+     
+    border:none; 
+     
+    padding:0; 
+    overflow:hidden; 
+    z-index:999999;"
+}
+    /* SELECT DROP DOWN STARTS*/
+.monselect{
+    width: 50%;
+    height: 10%;
+    border: none;
+    background-color:aliceblue;
+    
+}
+
+/* SELECT DD ENDS*/
+}
+

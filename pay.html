@@ -1,0 +1,45 @@
+<link rel="stylesheet" href="css/pay.css">
+<center>
+<h4 class="head">YOU ARE PAYING TO<br>"KARTHIK S"</h4>
+<h3 class="hb">Select your preferred mode</h3>
+    <!--MAIN SECTION-->
+    <p>
+<a href="upi://pay?pa=Q15168820@ybl&pn=KARTHIK S&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S">
+<img border="0" alt="UPI APPS" src="img/upi.png" width="40%" height="25%">
+</a>
+</p>
+    <!-- MAIN ENDS-->
+    <h3><br>Supports all UPI apps <br> PhonePe, Google pay, Amazon Pay, Bank UPI apps</h3>
+    
+    <!-- P KEY STARTS-->
+    <script type="text/javascript">
+     function onSubmit() {
+     if (document.getElementById('password').value == 'PAY') {window.location.href = 'upi://pay?pa=Q70092521@ybl&pn=KARTHIK S&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S';alert('PAYING RANDOM AMOUNT') }
+
+else if (document.getElementById('password').value == '10') {window.location.href = 'upi://pay?pa=Q70092521@ybl&pn=KARTHIK S&am=10&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S';alert('SELECT UPI APP TO PAY 10RS')}
+
+else if (document.getElementById('password').value == '100') {window.location.href = 'upi://pay?pa=Q70092521@ybl&pn=KARTHIK S&am=100&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S'; }
+
+else if (document.getElementById('password').value == '500') {window.location.href = 'upi://pay?pa=Q70092521@ybl&pn=KARTHIK S&am=500&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S'; }
+
+else if (document.getElementById('password').value == '1000') {window.location.href = 'upi://pay?pa=Q70092521@ybl&pn=KARTHIK S&am=1000&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S'; }
+
+else if (document.getElementById('password').value == 'PRINT') {window.location.href = 'upi://pay?pa=Q70092521@ybl&pn=KARTHIK S&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S';alert('PRINTING CHARGES - 3.5rs/layout\nPAY ACCORDINGLY') }
+
+
+else{ alert('Enter PAY in payment key box to pay random amount\n(Payment keys are case sensitive)\n Contact payment link provider for payment key');}
+     }
+</script>
+
+<form class="hero-form" action="#">
+          <div class="row-fluid">
+                  <label>ENTER PAYMENT KEY</label><div><div>
+                  <input type="word" name="password" maxlength="10"      class="span7" id="password" placeholder="Enter pay key" required/>
+
+             
+</form>
+<button class="btn btn-info btn-large span5" id="joe_btn" onclick="onSubmit()">PAY</button>
+
+
+    <!-- P KEY ENDS-->
+</center>

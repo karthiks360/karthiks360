@@ -11,23 +11,23 @@
 </a>
 </p>
     <!-- MAIN ENDS-->
-    <h3 class="sup"><br>Click on above upi logo to pay or enter paykey below <br> Supports all UPI apps <br> PhonePe, Google pay, Amazon Pay, Bank UPI apps</h3>
+    <h3 class="sup"><br>Supports all UPI apps <br> PhonePe, Google pay, Amazon Pay, Bank UPI apps</h3>
     <hr>
     
     <!-- P KEY STARTS-->
     <script type="text/javascript">
      function onSubmit() {
-     if (document.getElementById('password').value == 'PAY') {window.location.href = 'upi://pay?pa=Q15168820@ybl&pn=KARTHIK S&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S';alert('PAYING RANDOM AMOUNT') }
+     if (document.getElementById('paykey').value == 'PAY') {window.location.href = 'upi://pay?pa=Q70092521@ybl&pn=KARTHIK S&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S';alert('PAYING RANDOM AMOUNT') }
 
-else if (document.getElementById('password').value == 'EXAMFEE') {window.location.href = 'upi://pay?pa=Q15168820@ybl&pn=KARTHIK S&am=1775&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S for EXAM FEE';alert('SELECT UPI APP TO PAY EXAM FEE')}
+else if (document.getElementById('paykey').value == 'SBIN') {window.location.href = 'upi://pay?pa=karthiks360@sbi&pn=KARTHIK S&am=&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S';alert('SELECT UPI APP TO PAY [SBIN]')}
 
-else if (document.getElementById('password').value == '100') {window.location.href = 'upi://pay?pa=Q15168820@ybl&pn=KARTHIK S&am=100&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S'; }
+else if (document.getElementById('paykey').value == 'HDFC') {window.location.href = 'upi://pay?pa=karthiks360@hdfcbank&pn=KARTHIK S&am=&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S'; }
 
-else if (document.getElementById('password').value == '500') {window.location.href = 'upi://pay?pa=Q15168820@ybl&pn=KARTHIK S&am=500&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S'; }
+else if (document.getElementById('paykey').value == '500') {window.location.href = 'upi://pay?pa=Q70092521@ybl&pn=KARTHIK S&am=500&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S'; }
 
-else if (document.getElementById('password').value == '1000') {window.location.href = 'upi://pay?pa=Q15168820@ybl&pn=KARTHIK S&am=1000&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S'; }
+else if (document.getElementById('paykey').value == 'PHONEPE') {window.location.href = 'upi://pay?pa=karthiks360@ybl&pn=KARTHIK S&am=&purpose=00&tn=Paying to KARTHIK S'; }
 
-else if (document.getElementById('password').value == 'PRINT') {window.location.href = 'upi://pay?pa=Q15168820@ybl&pn=KARTHIK S&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S';alert('PRINTING CHARGES - 3.5rs/layout\nPAY ACCORDINGLY') }
+else if (document.getElementById('paykey').value == 'PRINT') {window.location.href = 'upi://pay?pa=Q70092521@ybl&pn=KARTHIK S&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S';alert('PRINTING CHARGES - 3.5rs/layout\nPAY ACCORDINGLY') }
 
 
 else{ alert('Enter PAY in payment key box to pay random amount\n(Payment keys are case sensitive)\n Contact payment link provider for payment key');}
@@ -37,7 +37,7 @@ else{ alert('Enter PAY in payment key box to pay random amount\n(Payment keys ar
 <form class="hero-form" action="#">
           <div class="row-fluid">
                   <label><h2>Enter payment Key</h2></label>
-                  <input type="word" name="password" maxlength="10" class="span7" id="password" placeholder="Enter pay key" required/>
+                  <input type="word" name="password" maxlength="10" class="span7" id="paykey" placeholder="Enter pay key" required/>
     
              
 
@@ -47,6 +47,6 @@ else{ alert('Enter PAY in payment key box to pay random amount\n(Payment keys ar
     <!-- P KEY ENDS-->
     <hr>
 
-<h6>Payments will be subjected to verification</h6>
+<h4>Payments will be subjected to verification</h4>
     
 </center>

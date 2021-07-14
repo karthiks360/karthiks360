@@ -1,16 +1,16 @@
 .head{
     padding-top: 10%;
-    font-size: 75px;
+    font-size: 60px;
     color:coral;
 }
 
 .hb{
     color:blueviolet;
-    font-size:40px;
+    font-size:35px;
 }
 
 .sup{
-    padding-bottom: 50px;
+    --padding-bottom: 50px;
     color:darkcyan;
 }
 

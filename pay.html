@@ -1,31 +1,40 @@
 <title>UPI | Karthik S</title>
 <link rel="icon" href="img/logo.jpeg" type="image/png">
-<link rel="stylesheet" href="css/pay.css">
+    <link rel="stylesheet" href="css/pay.css">
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="vendors/linericon/style.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
+	<link rel="stylesheet" href="css/magnific-popup.css">
+	<link rel="stylesheet" href="vendors/nice-select/css/nice-select.css">
+	<!-- main css -->
+	<link rel="stylesheet" href="css/style.css">
 <center>
-<h4 class="head">YOU ARE PAYING TO<br>"KARTHIK S"</h4>
-<h3 class="hb">Select your preferred mode</h3>
-    <h3 class="sup">Supports all UPI apps PhonePe, Google pay, Amazon Pay, Bank UPI apps<br>Click on below image to pay</h3>
+<h5 class="head">YOU ARE PAYING TO "KARTHIK S"</h5>
+    <h4 class="sup">Payments supported - UPI/Wallets/Credit card/Debit card<br></h4>
 
     <!--MAIN SECTION-->
+<!--
     <p>
 <a href="upi://pay?pa=Q15168820@ybl&pn=KARTHIK S&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S">
 <img border="0" alt="UPI APPS" src="img/upi.png" width="500px" height="312.5px">
 </a>
 </p>
+-->
     <!-- MAIN ENDS-->
-    
+    <!-- PAYKEY SECTION STARTS-->
    <hr> 
     <!-- P KEY STARTS-->
     <script type="text/javascript">
      function onSubmit() {
      
-if (document.getElementById('paykey').value == 'PAY') {window.location.href = 'upi://pay?pa=Q70092521@ybl&pn=KARTHIK S&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S';alert('PAYING RANDOM AMOUNT') }
+if (document.getElementById('paykey').value == 'PAY') {window.location.href = 'upi://pay?pa=karthiks360@ybl&pn=KARTHIK S&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S';alert('PAYING RANDOM AMOUNT') }
 
-else if (document.getElementById('paykey').value == 'SBIN') {window.location.href = 'upi://pay?pa=karthiks360@sbi&pn=KARTHIK S&am=&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S';alert('SELECT UPI APP TO PAY [SBIN]')}
+else if (document.getElementById('paykey').value == 'SBINKAR') {window.location.href = 'upi://pay?pa=karthiks360@sbi&pn=KARTHIK S&am=&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S';alert('SELECT UPI APP TO PAY [SBIN]')}
 
-else if (document.getElementById('paykey').value == 'HDFC') {window.location.href = 'upi://pay?pa=karthiks360@hdfcbank&pn=KARTHIK S&am=&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S';alert('SELECT UPI APP TO PAY [HDFC]') }
+else if (document.getElementById('paykey').value == 'HDFCKAR') {window.location.href = 'upi://pay?pa=karthiks360@hdfcbank&pn=KARTHIK S&am=&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S';alert('SELECT UPI APP TO PAY [HDFC]') }
          
-else if (document.getElementById('paykey').value == 'KKBK') {window.location.href = 'upi://pay?pa=karthiks360@kotak&pn=KARTHIK S&am=&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S';alert('SELECT UPI APP TO PAY [KKBK]') }
+else if (document.getElementById('paykey').value == 'SBINSRI') {window.location.href = 'upi://pay?pa=karthiks360@kotak&pn=KARTHIK S&am=&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S';alert('SELECT UPI APP TO PAY [KKBK]') }
          
 else if (document.getElementById('paykey').value == 'KKBK') {window.location.href = 'upi://pay?pa=karthiks360@kotak&pn=KARTHIK S&am=&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S';alert('SELECT UPI APP TO PAY [KKBK]') }       
 
@@ -38,18 +47,36 @@ else{ alert('Enter PAY in payment key box to pay random amount\n(Payment keys ar
 
 <form class="hero-form" action="#">
           <div class="row-fluid">
-                  <label><h2>Enter payment Key</h2></label>
-                  <h3 class="sup">Supports all UPI apps,Paytm Wallet,Cards</h3>
-                  <input type="word" name="key" maxlength="10" class="span7" id="paykey" placeholder="Enter pay key" required/>
+                  <!--label><h2>Enter payment Key</h2></label-->
+                  <!--h3 class="sup">Supports all UPI apps,Paytm Wallet,Cards</h3-->
+                    <h3 class="sup">Enter payment Key</h3>
+                  <input type="word" name="key" maxlength="10" class="span7" id="paykey" placeholder="Enter Payment Key" required/>
     
              
 
-<button class="btn btn-info btn-large span5" id="joe_btn" onclick="onSubmit()">PAY</button>
+<button class="primary_btn" id="joe_btn" onclick="onSubmit()">PAY</button>
 </div>
 </form>
-    <!-- P KEY ENDS-->
+    <!-- PAYKEY SECTION STARTS-->
     <hr>
+    
+    <a class="primary_btn" href="upi://pay?pa=karthiks360@sbi&pn=KARTHIK S&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S"><span>UPI [P]</span></a>
+    
+    <a class="primary_btn" href="upi://pay?pa=Q15168820@ybl&pn=KARTHIK S&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S"><span>UPI [B]</span></a>
 
-<h4>Payments will be subjected to verification</h4>
+    <a class="primary_btn" onclick="onSubmitpay()" href="" )><span>PAYTM Wallet</span></a>
+
+<script type="text/javascript">
+function onSubmitpayumoney() {
+    <a class="primary_btn" onclick="onSubmitpayumoney()"  ><span>Credit/Debit Card</span></a>
+        {window.location.href="https://pmny.in/9I5Luj6gehFs";alert('Convenience charges of 2.36% will be charged towards all Wallets/Cards payments') }
+ }
+</script>
+    
+    <h5><br>UPI Supported - BHIM/Phonepe/Gpay/Paytm/Amazon pay & Bank UPI apps<br></h5>
+    <h6>Convenience charges of 2.36% will be charged towards all Wallets/Cards payments | UPI Payments 0%</h6>
+<br><br>
+<hr>
+<h4><br>All payments made will be subjected to verification, T&C Apply</h4>
     
 </center>

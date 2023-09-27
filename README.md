@@ -1,4 +1,7 @@
 ### Hi there 👋
+- 🌱 I’m currently learning on DevOps Skills
+- 👯 I’m looking to collaborate on exciting projects
+- 📫 Reach out to me - karthiksridhara.work@gmail.com
 
 <!--
 **karthiks360/karthiks360** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.

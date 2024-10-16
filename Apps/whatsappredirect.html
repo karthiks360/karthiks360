@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WhatsApp Redirect</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      width: 350px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    .input-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      margin-left: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .country-code {
+      width: 10px; /* Fixed width for the country code input */
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      text-align: center;
+    }
+    button {
+      padding: 10px;
+      background-color: #25D366; /* WhatsApp green */
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+    }
+    button:hover {
+      background-color: #1ebe54; /* Darker green */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Enter WhatsApp Number</h2>
+    <form id="whatsappForm" onsubmit="redirectToWhatsApp(event)">
+      <div class="input-group">
+        <input type="text" id="countryCode" name="countryCode" value="+91" class="country-code" maxlength="4" required />
+        <input type="text" id="mobileNumber" name="mobileNumber" required pattern="\d{10}" placeholder="Enter Mobile Number" />
+      </div>
+      <button type="submit">Open Chat</button>
+    </form>
+  </div>
+
+  <script>
+    function redirectToWhatsApp(event) {
+      event.preventDefault(); // Prevent the form from submitting normally
+
+      // Get the country code and mobile number from the input fields
+      const countryCode = document.getElementById("countryCode").value;
+      const mobileNumber = document.getElementById("mobileNumber").value;
+
+      // Validate mobile number length based on country code
+      if (countryCode === '+91' && mobileNumber.length !== 10) {
+        alert("Please enter a valid 10-digit mobile number for country code +91.");
+        return;
+      }
+
+      // Construct the WhatsApp URL
+      const whatsappUrl = `https://api.whatsapp.com/send/?phone=${encodeURIComponent(countryCode + mobileNumber)}&text&type=phone_number&app_absent=0`;
+
+      // Redirect to the constructed URL
+      window.location.href = whatsappUrl;
+    }
+  </script>
+</body>
+</html>

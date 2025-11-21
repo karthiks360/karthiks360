@@ -22,15 +22,15 @@ export function Hero() {
           </p>
 
           <div className="flex flex-wrap gap-4">
-            <Button 
-              size="lg" 
+            <Button
+              size="lg"
               className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transition-all rounded-xl px-8"
             >
               <Mail className="mr-2 h-5 w-5" />
               Hire Me
             </Button>
-            <Button 
-              size="lg" 
+            <Button
+              size="lg"
               variant="outline"
               className="border-2 border-slate-300 hover:border-slate-400 hover:bg-slate-50 rounded-xl px-8 transition-all"
             >
@@ -49,7 +49,7 @@ export function Hero() {
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 opacity-20 animate-pulse"></div>
               <div className="absolute inset-4 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 opacity-30 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
               <div className="absolute inset-8 rounded-full bg-gradient-to-br from-blue-300 to-purple-400 opacity-40 animate-pulse" style={{ animationDelay: '1s' }}></div>
-              
+
               {/* Center Avatar */}
               <div className="absolute inset-12 rounded-full bg-gradient-to-br from-blue-600 via-purple-600 to-blue-700 flex items-center justify-center shadow-2xl">
                 <div className="w-full h-full rounded-full bg-slate-900/90 backdrop-blur-sm flex items-center justify-center border-4 border-white/10">

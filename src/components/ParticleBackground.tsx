@@ -13,7 +13,7 @@ interface BackgroundParticle {
 export function ParticleBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<BackgroundParticle[]>([]);
-  const animationFrameRef = useRef<number>();
+  const animationFrameRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -21,6 +21,11 @@ export function ParticleBackground() {
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+
+    // Respect users who prefer reduced motion — render nothing and skip the loop.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
 
     // Set canvas size
     const updateCanvasSize = () => {

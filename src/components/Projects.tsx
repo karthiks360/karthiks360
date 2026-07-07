@@ -2,7 +2,16 @@ import { ExternalLink, Github } from 'lucide-react';
 import { Button } from './ui/button';
 
 export function Projects() {
-  const projects = [
+  // TODO: Replace these placeholders with real projects.
+  // Add `code` and/or `live` URLs — buttons render only when a URL is present.
+  const projects: {
+    title: string;
+    description: string;
+    tech: string[];
+    gradient: string;
+    code?: string;
+    live?: string;
+  }[] = [
     {
       title: 'E-Commerce Platform',
       description: 'Full-stack e-commerce solution with payment integration and inventory management',
@@ -24,12 +33,12 @@ export function Projects() {
   ];
 
   return (
-    <section id="projects" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <section id="projects" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 scroll-mt-20">
       <div className="space-y-12">
         {/* Section Header */}
         <div className="text-center space-y-4">
-          <h2 className="text-slate-900 text-4xl sm:text-5xl">Featured Projects</h2>
-          <p className="text-slate-600 text-lg max-w-3xl mx-auto">
+          <h2 className="text-slate-900 dark:text-white text-4xl sm:text-5xl">Featured Projects</h2>
+          <p className="text-slate-600 dark:text-slate-300 text-lg max-w-3xl mx-auto">
             Some of my recent work and side projects
           </p>
         </div>
@@ -39,7 +48,7 @@ export function Projects() {
           {projects.map((project, index) => (
             <div
               key={project.title}
-              className="group relative bg-white/60 backdrop-blur-lg rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border border-white/20 hover:-translate-y-2"
+              className="group relative bg-white/60 dark:bg-slate-800/60 backdrop-blur-lg rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border border-white/20 dark:border-slate-700/40 hover:-translate-y-2"
             >
               {/* Gradient Header */}
               <div className={`h-48 bg-gradient-to-br ${project.gradient} relative overflow-hidden`}>
@@ -57,40 +66,52 @@ export function Projects() {
 
               {/* Content */}
               <div className="p-6 space-y-4">
-                <h3 className="text-slate-900 text-2xl">{project.title}</h3>
-                <p className="text-slate-600">{project.description}</p>
+                <h3 className="text-slate-900 dark:text-white text-2xl">{project.title}</h3>
+                <p className="text-slate-600 dark:text-slate-300">{project.description}</p>
 
                 {/* Tech Tags */}
                 <div className="flex flex-wrap gap-2">
                   {project.tech.map((tech) => (
                     <span
                       key={tech}
-                      className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm"
+                      className="px-3 py-1 bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-200 rounded-full text-sm"
                     >
                       {tech}
                     </span>
                   ))}
                 </div>
 
-                {/* Action Buttons */}
-                <div className="flex gap-3 pt-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="flex-1 rounded-xl hover:bg-slate-50"
-                  >
-                    <Github className="mr-2 h-4 w-4" />
-                    Code
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="flex-1 rounded-xl hover:bg-slate-50"
-                  >
-                    <ExternalLink className="mr-2 h-4 w-4" />
-                    Live
-                  </Button>
-                </div>
+                {/* Action Buttons — render only when a URL is provided */}
+                {(project.code || project.live) && (
+                  <div className="flex gap-3 pt-2">
+                    {project.code && (
+                      <Button
+                        asChild
+                        variant="outline"
+                        size="sm"
+                        className="flex-1 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700"
+                      >
+                        <a href={project.code} target="_blank" rel="noopener noreferrer">
+                          <Github className="mr-2 h-4 w-4" />
+                          Code
+                        </a>
+                      </Button>
+                    )}
+                    {project.live && (
+                      <Button
+                        asChild
+                        variant="outline"
+                        size="sm"
+                        className="flex-1 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700"
+                      >
+                        <a href={project.live} target="_blank" rel="noopener noreferrer">
+                          <ExternalLink className="mr-2 h-4 w-4" />
+                          Live
+                        </a>
+                      </Button>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Hover Glow Effect */}

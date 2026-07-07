@@ -13,17 +13,17 @@ export function TechStack() {
   ];
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <section id="skills" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 scroll-mt-20">
       <div className="text-center mb-12">
-        <h2 className="text-slate-900 text-4xl sm:text-5xl mb-4">Tech Stack & Tools</h2>
-        <p className="text-slate-600 text-lg">Technologies I work with daily</p>
+        <h2 className="text-slate-900 dark:text-white text-4xl sm:text-5xl mb-4">Tech Stack & Tools</h2>
+        <p className="text-slate-600 dark:text-slate-300 text-lg">Technologies I work with daily</p>
       </div>
 
       {/* Scrolling Container */}
       <div className="relative overflow-hidden">
         {/* Gradient Fade Edges */}
-        <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-slate-50 to-transparent z-10"></div>
-        <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-slate-50 to-transparent z-10"></div>
+        <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-slate-50 dark:from-slate-950 to-transparent z-10"></div>
+        <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-slate-50 dark:from-slate-950 to-transparent z-10"></div>
 
         {/* Scrolling Tech Tags */}
         <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">

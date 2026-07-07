@@ -22,8 +22,8 @@ export default function PayPage() {
             window.location.href = 'upi://pay?pa=karthiks360@hdfcbank&pn=KARTHIK S&am=&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S';
             alert('SELECT UPI APP TO PAY [HDFC]');
         } else if (paykey === 'SBINSRI') {
-            window.location.href = 'upi://pay?pa=karthiks360@kotak&pn=KARTHIK S&am=&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S';
-            alert('SELECT UPI APP TO PAY [KKBK]');
+            window.location.href = 'upi://pay?pa=karthiks360@sbi&pn=KARTHIK S&am=&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S';
+            alert('SELECT UPI APP TO PAY [SBIN]');
         } else if (paykey === 'KKBK') {
             window.location.href = 'upi://pay?pa=karthiks360@kotak&pn=KARTHIK S&am=&mc=0000&mode=02&purpose=00&orgid=180001&tn=Paying to KARTHIK S';
             alert('SELECT UPI APP TO PAY [KKBK]');
@@ -35,7 +35,7 @@ export default function PayPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30 relative overflow-hidden">
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30 dark:from-slate-950 dark:via-blue-950/30 dark:to-purple-950/30 relative overflow-hidden">
             <ParticleBackground />
             <MouseGlowEffect />
             <div className="relative z-10">
@@ -45,16 +45,16 @@ export default function PayPage() {
                     <div className="space-y-12">
                         {/* Header */}
                         <div className="text-center space-y-4">
-                            <h1 className="text-slate-900 text-4xl sm:text-5xl lg:text-6xl font-bold">
-                                PAYING TO <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">"KARTHIK S"</span>
+                            <h1 className="text-slate-900 dark:text-white text-4xl sm:text-5xl lg:text-6xl font-bold">
+                                PAYING TO <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">&quot;KARTHIK S&quot;</span>
                             </h1>
                         </div>
 
                         {/* Payment Key Form */}
-                        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-slate-200">
+                        <div className="bg-white/80 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-slate-200 dark:border-slate-700">
                             <form onSubmit={handlePayment} className="space-y-6">
                                 <div className="space-y-3">
-                                    <label htmlFor="paykey" className="block text-slate-700 text-lg font-medium">
+                                    <label htmlFor="paykey" className="block text-slate-700 dark:text-slate-200 text-lg font-medium">
                                         Enter payment Key
                                     </label>
                                     <input
@@ -65,7 +65,7 @@ export default function PayPage() {
                                         onChange={(e) => setPaykey(e.target.value)}
                                         placeholder=""
                                         required
-                                        className="w-full px-6 py-4 text-lg border-2 border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                        className="w-full px-6 py-4 text-lg border-2 border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                                     />
                                 </div>
 
@@ -79,18 +79,18 @@ export default function PayPage() {
                         </div>
 
                         {/* Payment Info */}
-                        <div className="bg-blue-50/50 backdrop-blur-sm rounded-xl p-6 border border-blue-100">
-                            <p className="text-slate-700 text-center text-sm leading-relaxed">
+                        <div className="bg-blue-50/50 dark:bg-blue-950/30 backdrop-blur-sm rounded-xl p-6 border border-blue-100 dark:border-blue-900/40">
+                            <p className="text-slate-700 dark:text-slate-200 text-center text-sm leading-relaxed">
                                 <strong>UPI Supported</strong> - BHIM/Phonepe/Gpay/Paytm/Amazon pay & Bank UPI apps
                             </p>
                         </div>
 
                         {/* Divider */}
-                        <div className="border-t-2 border-slate-200"></div>
+                        <div className="border-t-2 border-slate-200 dark:border-slate-700"></div>
 
                         {/* Terms & Conditions */}
                         <div className="text-center">
-                            <p className="text-slate-600 text-sm">
+                            <p className="text-slate-600 dark:text-slate-400 text-sm">
                                 All payments made will be subjected to verification, T&C Apply
                             </p>
                         </div>

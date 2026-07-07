@@ -5,11 +5,11 @@ export function Footer() {
     { icon: Github, href: '#', label: 'GitHub' },
     { icon: Linkedin, href: '#', label: 'LinkedIn' },
     { icon: Twitter, href: '#', label: 'Twitter' },
-    { icon: Mail, href: '#', label: 'Email' },
+    { icon: Mail, href: 'mailto:karthik.s@sisainfosec.com', label: 'Email' },
   ];
 
   return (
-    <footer className="bg-slate-900 text-white py-16 mt-20 relative overflow-hidden">
+    <footer id="contact" className="bg-slate-900 text-white py-16 mt-20 relative overflow-hidden scroll-mt-20">
       {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-purple-900/20"></div>
       
@@ -24,6 +24,9 @@ export function Footer() {
                   key={social.label}
                   href={social.href}
                   aria-label={social.label}
+                  {...(social.href.startsWith('http')
+                    ? { target: '_blank', rel: 'noopener noreferrer' }
+                    : {})}
                   className="group relative w-14 h-14 bg-slate-800/50 backdrop-blur-sm hover:bg-gradient-to-br hover:from-blue-600 hover:to-purple-600 rounded-full flex items-center justify-center transition-all duration-300 border border-slate-700 hover:border-transparent hover:scale-110"
                 >
                   {/* Glow Effect */}

@@ -3,13 +3,13 @@ import { Download, Mail } from 'lucide-react';
 
 export function Hero() {
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-32 mt-16">
+    <section id="home" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-32 mt-16 scroll-mt-20">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         {/* Left Side - Text Content */}
         <div className="space-y-8">
           <div className="space-y-4">
-            <p className="text-slate-500 tracking-wider uppercase text-sm">Hello, I am</p>
-            <h1 className="text-slate-900 text-5xl sm:text-6xl lg:text-7xl">
+            <p className="text-slate-500 dark:text-slate-400 tracking-wider uppercase text-sm">Hello, I am</p>
+            <h1 className="text-slate-900 dark:text-white text-5xl sm:text-6xl lg:text-7xl">
               Karthik S
             </h1>
             <h2 className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 text-3xl sm:text-4xl">
@@ -17,25 +17,31 @@ export function Hero() {
             </h2>
           </div>
 
-          <p className="text-slate-600 text-lg max-w-xl leading-relaxed">
+          <p className="text-slate-600 dark:text-slate-300 text-lg max-w-xl leading-relaxed">
             Software Developer at SISA Information Security, passionate about building innovative solutions and exploring new technologies.
           </p>
 
           <div className="flex flex-wrap gap-4">
             <Button
+              asChild
               size="lg"
               className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transition-all rounded-xl px-8"
             >
-              <Mail className="mr-2 h-5 w-5" />
-              Hire Me
+              <a href="mailto:karthik.s@sisainfosec.com?subject=Let%27s%20work%20together">
+                <Mail className="mr-2 h-5 w-5" />
+                Hire Me
+              </a>
             </Button>
             <Button
+              asChild
               size="lg"
               variant="outline"
-              className="border-2 border-slate-300 hover:border-slate-400 hover:bg-slate-50 rounded-xl px-8 transition-all"
+              className="border-2 border-slate-300 hover:border-slate-400 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-200 dark:hover:border-slate-500 dark:hover:bg-slate-800 rounded-xl px-8 transition-all"
             >
-              <Download className="mr-2 h-5 w-5" />
-              Download CV
+              <a href="/resume.pdf" download>
+                <Download className="mr-2 h-5 w-5" />
+                Download CV
+              </a>
             </Button>
           </div>
         </div>

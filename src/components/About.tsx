@@ -23,12 +23,12 @@ export function About() {
   ];
 
   return (
-    <section id="about" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <section id="about" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 scroll-mt-20">
       <div className="space-y-16">
         {/* Section Header */}
         <div className="text-center space-y-4">
-          <h2 className="text-slate-900 text-4xl sm:text-5xl">Let's Introduce About Myself</h2>
-          <p className="text-slate-600 text-lg max-w-3xl mx-auto">
+          <h2 className="text-slate-900 dark:text-white text-4xl sm:text-5xl">Let&apos;s Introduce About Myself</h2>
+          <p className="text-slate-600 dark:text-slate-300 text-lg max-w-3xl mx-auto">
             Passionate about creating innovative solutions and building exceptional digital experiences
           </p>
         </div>
@@ -38,7 +38,7 @@ export function About() {
           {features.map((feature) => (
             <div
               key={feature.title}
-              className="group relative bg-white/60 backdrop-blur-lg rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border border-white/20 hover:-translate-y-2"
+              className="group relative bg-white/60 dark:bg-slate-800/60 backdrop-blur-lg rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border border-white/20 dark:border-slate-700/40 hover:-translate-y-2"
             >
               {/* Gradient Overlay on Hover */}
               <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-5 rounded-3xl transition-opacity duration-300`}></div>
@@ -52,8 +52,8 @@ export function About() {
                 <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} rounded-2xl blur-xl opacity-0 group-hover:opacity-30 transition-opacity duration-300`}></div>
               </div>
               
-              <h3 className="text-slate-900 mb-3 text-xl">{feature.title}</h3>
-              <p className="text-slate-600">{feature.description}</p>
+              <h3 className="text-slate-900 dark:text-white mb-3 text-xl">{feature.title}</h3>
+              <p className="text-slate-600 dark:text-slate-300">{feature.description}</p>
             </div>
           ))}
         </div>

@@ -32,11 +32,9 @@ export function Experience() {
       period: 'Apr 2021 – Mar 2023',
       location: 'Bengaluru, India · Hybrid',
       points: [
-        'Led migration and implementation of a new core payments system, enhancing transaction efficiency.',
-        'Developed, modified, and optimized batch jobs to reduce delays in NEFT/RTGS transactions.',
-        'Monitored and improved API integrations between internal banking systems and third-party fintechs.',
-        'Identified and fixed application bugs, supporting testing and go-live phases for new deployments.',
-        'Managed EOD/BOD operations, automated reporting, and contributed to system enhancements.',
+        'Led migration of a new core payments system and optimized NEFT/RTGS batch jobs.',
+        'Maintained banking API integrations with third-party fintechs and automated EOD/BOD operations.',
+        'Worked on customization and development of banking application features.',
       ],
     },
   ];

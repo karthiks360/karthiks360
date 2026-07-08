@@ -1,14 +1,19 @@
 import { Button } from './ui/button';
-import { Download, Mail } from 'lucide-react';
+import { Mail } from 'lucide-react';
 
 export function Hero() {
   return (
-    <section id="home" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-32 mt-16 scroll-mt-20">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <section id="home" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center min-h-[calc(100vh-4rem)] py-16 sm:py-20">
+      <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         {/* Left Side - Text Content */}
         <div className="space-y-8">
           <div className="space-y-4">
-            <p className="text-slate-500 dark:text-slate-400 tracking-wider uppercase text-sm">Hello, I am</p>
+            {/* Terminal-style prompt accent */}
+            <p className="font-mono text-sm text-slate-500 dark:text-slate-400">
+              <span className="text-emerald-600 dark:text-emerald-400">~/karthiks360</span>
+              <span className="text-slate-400 dark:text-slate-600"> $ </span>
+              <span className="text-blue-600 dark:text-blue-400">whoami</span>
+            </p>
             <h1 className="text-slate-900 dark:text-white text-5xl sm:text-6xl lg:text-7xl">
               Karthik S
             </h1>
@@ -18,7 +23,7 @@ export function Hero() {
           </div>
 
           <p className="text-slate-600 dark:text-slate-300 text-lg max-w-xl leading-relaxed">
-            Software Developer at SISA Information Security, passionate about building innovative solutions and exploring new technologies.
+            Software Developer with 4+ years building backend services, REST APIs, and cloud infrastructure. Currently developing AI-driven enterprise security platforms at SISA, Bengaluru.
           </p>
 
           <div className="flex flex-wrap gap-4">
@@ -27,52 +32,116 @@ export function Hero() {
               size="lg"
               className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transition-all rounded-xl px-8"
             >
-              <a href="mailto:karthik.s@sisainfosec.com?subject=Let%27s%20work%20together">
+              <a href="mailto:karthiksridhara.work@gmail.com?subject=Let%27s%20work%20together">
                 <Mail className="mr-2 h-5 w-5" />
                 Hire Me
               </a>
             </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="border-2 border-slate-300 hover:border-slate-400 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-200 dark:hover:border-slate-500 dark:hover:bg-slate-800 rounded-xl px-8 transition-all"
-            >
-              <a href="/resume.pdf" download>
-                <Download className="mr-2 h-5 w-5" />
-                Download CV
-              </a>
-            </Button>
+          </div>
+
+          {/* Stat row */}
+          <div className="flex flex-wrap gap-8 pt-4 border-t border-slate-200/70 dark:border-slate-800/70">
+            {[
+              { value: '4+', label: 'Years experience' },
+              { value: '3', label: 'Companies' },
+              { value: '10+', label: 'Technologies' },
+            ].map((stat) => (
+              <div key={stat.label}>
+                <p className="text-2xl sm:text-3xl text-slate-900 dark:text-white">{stat.value}</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">{stat.label}</p>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Right Side - Animated Visual */}
+        {/* Right Side - Code Editor Window */}
         <div className="flex justify-center lg:justify-end">
-          <div className="relative">
-            {/* Main Circle */}
-            <div className="w-80 h-80 sm:w-96 sm:h-96 relative">
-              {/* Animated Rings */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 opacity-20 animate-pulse"></div>
-              <div className="absolute inset-4 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 opacity-30 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-              <div className="absolute inset-8 rounded-full bg-gradient-to-br from-blue-300 to-purple-400 opacity-40 animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div className="relative w-full max-w-md">
+            {/* Ambient backlight — soft halo wrapping the editor */}
+            <div className="absolute -inset-6 bg-gradient-to-br from-blue-500/40 via-purple-500/30 to-indigo-500/40 rounded-[2.5rem] blur-3xl" aria-hidden="true"></div>
+            {/* Corner accent glows */}
+            <div className="absolute -top-12 -right-12 w-48 h-48 bg-blue-400 rounded-full opacity-30 dark:opacity-40 blur-3xl" aria-hidden="true"></div>
+            <div className="absolute -bottom-12 -left-12 w-56 h-56 bg-purple-500 rounded-full opacity-30 dark:opacity-40 blur-3xl" aria-hidden="true"></div>
 
-              {/* Center Avatar */}
-              <div className="absolute inset-12 rounded-full bg-gradient-to-br from-blue-600 via-purple-600 to-blue-700 flex items-center justify-center shadow-2xl">
-                <div className="w-full h-full rounded-full bg-slate-900/90 backdrop-blur-sm flex items-center justify-center border-4 border-white/10">
-                  <span className="text-white text-8xl opacity-90">K</span>
-                </div>
+            {/* Editor Window */}
+            <div className="relative rounded-2xl border border-slate-200/80 dark:border-slate-700/60 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-2xl overflow-hidden">
+              {/* Title Bar */}
+              <div className="flex items-center gap-2 px-4 py-3 border-b border-slate-200/80 dark:border-slate-800 bg-slate-100/70 dark:bg-slate-800/50">
+                <span className="w-3 h-3 rounded-full bg-red-400"></span>
+                <span className="w-3 h-3 rounded-full bg-yellow-400"></span>
+                <span className="w-3 h-3 rounded-full bg-green-400"></span>
+                <span className="ml-3 font-mono text-xs text-slate-500 dark:text-slate-400">developer.ts</span>
               </div>
 
-              {/* Floating Particles */}
-              <div className="absolute top-0 right-0 w-4 h-4 bg-blue-500 rounded-full blur-sm animate-bounce"></div>
-              <div className="absolute bottom-10 right-10 w-3 h-3 bg-purple-500 rounded-full blur-sm animate-bounce" style={{ animationDelay: '0.3s' }}></div>
-              <div className="absolute bottom-0 left-10 w-5 h-5 bg-blue-400 rounded-full blur-sm animate-bounce" style={{ animationDelay: '0.6s' }}></div>
-              <div className="absolute top-10 left-0 w-3 h-3 bg-purple-400 rounded-full blur-sm animate-bounce" style={{ animationDelay: '0.9s' }}></div>
-            </div>
+              {/* Code Body */}
+              <div className="flex font-mono text-sm leading-relaxed">
+                {/* Line numbers */}
+                <div className="select-none py-4 px-3 text-right text-slate-300 dark:text-slate-600 border-r border-slate-200/70 dark:border-slate-800">
+                  {Array.from({ length: 9 }, (_, i) => (
+                    <div key={i}>{i + 1}</div>
+                  ))}
+                </div>
 
-            {/* Glow Effects */}
-            <div className="absolute -top-10 -right-10 w-40 h-40 bg-blue-400 rounded-full opacity-20 blur-3xl"></div>
-            <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-purple-500 rounded-full opacity-20 blur-3xl"></div>
+                {/* Code */}
+                <pre className="py-4 px-4 overflow-x-auto text-slate-700 dark:text-slate-300">
+                  <code>
+                    <span className="text-purple-600 dark:text-purple-400">const</span>{' '}
+                    <span className="text-blue-600 dark:text-blue-400">engineer</span>{' '}
+                    <span className="text-slate-400">=</span>{' '}
+                    <span className="text-slate-400">{'{'}</span>
+                    {'\n'}
+                    {'  '}
+                    <span className="text-sky-600 dark:text-sky-400">name</span>
+                    <span className="text-slate-400">:</span>{' '}
+                    <span className="text-emerald-600 dark:text-emerald-400">&apos;Karthik S&apos;</span>
+                    <span className="text-slate-400">,</span>
+                    {'\n'}
+                    {'  '}
+                    <span className="text-sky-600 dark:text-sky-400">role</span>
+                    <span className="text-slate-400">:</span>{' '}
+                    <span className="text-emerald-600 dark:text-emerald-400">&apos;Software Developer&apos;</span>
+                    <span className="text-slate-400">,</span>
+                    {'\n'}
+                    {'  '}
+                    <span className="text-sky-600 dark:text-sky-400">focus</span>
+                    <span className="text-slate-400">:</span>{' '}
+                    <span className="text-slate-400">[</span>
+                    <span className="text-emerald-600 dark:text-emerald-400">&apos;Backend&apos;</span>
+                    <span className="text-slate-400">,</span>{' '}
+                    <span className="text-emerald-600 dark:text-emerald-400">&apos;Cloud&apos;</span>
+                    <span className="text-slate-400">],</span>
+                    {'\n'}
+                    {'  '}
+                    <span className="text-sky-600 dark:text-sky-400">stack</span>
+                    <span className="text-slate-400">:</span>{' '}
+                    <span className="text-slate-400">[</span>
+                    <span className="text-emerald-600 dark:text-emerald-400">&apos;Python&apos;</span>
+                    <span className="text-slate-400">,</span>{' '}
+                    <span className="text-emerald-600 dark:text-emerald-400">&apos;Node&apos;</span>
+                    <span className="text-slate-400">,</span>{' '}
+                    <span className="text-emerald-600 dark:text-emerald-400">&apos;AWS&apos;</span>
+                    <span className="text-slate-400">],</span>
+                    {'\n'}
+                    {'  '}
+                    <span className="text-sky-600 dark:text-sky-400">location</span>
+                    <span className="text-slate-400">:</span>{' '}
+                    <span className="text-emerald-600 dark:text-emerald-400">&apos;Bengaluru, IN&apos;</span>
+                    <span className="text-slate-400">,</span>
+                    {'\n'}
+                    {'  '}
+                    <span className="text-sky-600 dark:text-sky-400">available</span>
+                    <span className="text-slate-400">:</span>{' '}
+                    <span className="text-orange-600 dark:text-orange-400">true</span>
+                    <span className="text-slate-400">,</span>
+                    {'\n'}
+                    <span className="text-slate-400">{'}'}</span>
+                    <span className="text-slate-400">;</span>
+                    {'\n'}
+                    <span className="inline-block w-2 h-4 translate-y-0.5 bg-blue-500 animate-pulse"></span>
+                  </code>
+                </pre>
+              </div>
+            </div>
           </div>
         </div>
       </div>

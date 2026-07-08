@@ -1,10 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Navigation } from '@/components/Navigation';
-import { Footer } from '@/components/Footer';
-import { ParticleBackground } from '@/components/ParticleBackground';
-import { MouseGlowEffect } from '@/components/MouseGlowEffect';
 
 export default function PayPage() {
     const [paykey, setPaykey] = useState('');
@@ -35,14 +31,8 @@ export default function PayPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30 dark:from-slate-950 dark:via-blue-950/30 dark:to-purple-950/30 relative overflow-hidden">
-            <ParticleBackground />
-            <MouseGlowEffect />
-            <div className="relative z-10">
-                <Navigation />
-
-                <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-32 mt-16">
-                    <div className="space-y-12">
+        <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-32">
+            <div className="space-y-12">
                         {/* Header */}
                         <div className="text-center space-y-4">
                             <h1 className="text-slate-900 dark:text-white text-4xl sm:text-5xl lg:text-6xl font-bold">
@@ -94,11 +84,7 @@ export default function PayPage() {
                                 All payments made will be subjected to verification, T&C Apply
                             </p>
                         </div>
-                    </div>
-                </section>
-
-                <Footer />
             </div>
-        </div>
+        </section>
     );
 }

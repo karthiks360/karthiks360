@@ -1,10 +1,14 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { ThemeProvider } from '@/components/ThemeProvider';
+import { Navigation } from '@/components/Navigation';
+import { Footer } from '@/components/Footer';
+import { ParticleBackground } from '@/components/ParticleBackground';
+import { CustomCursor } from '@/components/CustomCursor';
 
 const siteUrl = 'https://karthiks360.com';
 const description =
-  'Karthik S — Software Developer at SISA Information Security. Building innovative software, electronics, and automation projects.';
+  'Karthik S — Software Developer with 4+ years in backend development, REST APIs, cloud (AWS), and DevOps automation. Currently building AI-driven enterprise security platforms at SISA.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -16,12 +20,16 @@ export const metadata: Metadata = {
   keywords: [
     'Karthik S',
     'Software Developer',
-    'SISA Information Security',
-    'Web Developer',
-    'React',
+    'Backend Developer',
+    'SISA',
+    'REST API',
+    'Python',
+    'Node.js',
     'Next.js',
-    'Automation',
-    'Electronics',
+    'AWS',
+    'Docker',
+    'DevOps',
+    'Cloud',
     'Portfolio',
   ],
   authors: [{ name: 'Karthik S', url: siteUrl }],
@@ -68,7 +76,15 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30 dark:from-slate-950 dark:via-blue-950/30 dark:to-purple-950/30 relative overflow-hidden">
+            <ParticleBackground />
+            <CustomCursor />
+            <div className="relative z-10 flex min-h-screen flex-col">
+              <Navigation />
+              <main className="flex-1 pt-16">{children}</main>
+              <Footer />
+            </div>
+          </div>
         </ThemeProvider>
       </body>
     </html>

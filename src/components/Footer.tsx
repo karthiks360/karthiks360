@@ -1,11 +1,10 @@
-import { Github, Linkedin, Twitter, Mail } from 'lucide-react';
+import { Github, Linkedin, Mail } from 'lucide-react';
 
 export function Footer() {
   const socialLinks = [
-    { icon: Github, href: '#', label: 'GitHub' },
-    { icon: Linkedin, href: '#', label: 'LinkedIn' },
-    { icon: Twitter, href: '#', label: 'Twitter' },
-    { icon: Mail, href: 'mailto:karthik.s@sisainfosec.com', label: 'Email' },
+    { icon: Github, href: 'https://github.com/karthiks360', label: 'GitHub' },
+    { icon: Linkedin, href: 'https://www.linkedin.com/in/karthiks360', label: 'LinkedIn' },
+    { icon: Mail, href: 'mailto:karthiksridhara.work@gmail.com', label: 'Email' },
   ];
 
   return (
@@ -49,7 +48,7 @@ export function Footer() {
 
           {/* Copyright */}
           <div className="text-center space-y-2">
-            <p className="text-slate-400">© 2025 Karthik S — karthiks360.com</p>
+            <p className="text-slate-400">© {new Date().getFullYear()} Karthik S — karthiks360.com</p>
             <p className="text-slate-500 text-sm">All rights reserved</p>
           </div>
         </div>

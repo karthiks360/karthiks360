@@ -70,6 +70,56 @@
   }
 }
 
+/* Custom cursor — only mounted on fine-pointer, motion-OK devices.
+   The .custom-cursor-active class is toggled on <body> by CustomCursor. */
+.custom-cursor-active,
+.custom-cursor-active * {
+  cursor: none !important;
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.cursor-dot__shape {
+  display: block;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 9999px;
+  background: #3b82f6;
+  transition: opacity 0.2s ease;
+}
+
+.cursor-ring__shape {
+  display: block;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 2px solid rgba(59, 130, 246, 0.6);
+  border-radius: 9999px;
+  transition: width 0.25s ease, height 0.25s ease, margin 0.25s ease,
+    background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.cursor-ring--hover .cursor-ring__shape {
+  width: 58px;
+  height: 58px;
+  margin: -29px 0 0 -29px;
+  background: rgba(139, 92, 246, 0.15);
+  border-color: rgba(139, 92, 246, 0.9);
+}
+
+.cursor-dot--hover .cursor-dot__shape {
+  opacity: 0;
+}
+
 /* Respect users who prefer reduced motion: neutralize animations,
    transitions, and smooth scrolling site-wide (marquee, pulse, bounce, etc.). */
 @media (prefers-reduced-motion: reduce) {

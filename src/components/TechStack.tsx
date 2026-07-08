@@ -1,21 +1,23 @@
 export function TechStack() {
   const technologies = [
-    { name: 'React', color: 'from-cyan-500 to-blue-500' },
-    { name: 'TypeScript', color: 'from-blue-600 to-blue-700' },
-    { name: 'Node.js', color: 'from-green-600 to-green-700' },
     { name: 'Python', color: 'from-blue-500 to-yellow-500' },
-    { name: 'Docker', color: 'from-blue-500 to-cyan-600' },
+    { name: 'Node.js', color: 'from-green-600 to-green-700' },
+    { name: 'Next.js', color: 'from-slate-700 to-slate-900' },
+    { name: 'REST APIs', color: 'from-indigo-500 to-blue-600' },
     { name: 'AWS', color: 'from-orange-500 to-yellow-500' },
-    { name: 'PostgreSQL', color: 'from-blue-600 to-blue-800' },
-    { name: 'MongoDB', color: 'from-green-600 to-green-800' },
-    { name: 'Git', color: 'from-orange-600 to-red-600' },
+    { name: 'Docker', color: 'from-blue-500 to-cyan-600' },
     { name: 'Linux', color: 'from-yellow-500 to-orange-500' },
+    { name: 'Shell', color: 'from-slate-600 to-slate-800' },
+    { name: 'Git', color: 'from-orange-600 to-red-600' },
+    { name: 'SQL', color: 'from-sky-500 to-blue-700' },
+    { name: 'MongoDB', color: 'from-green-600 to-green-800' },
   ];
 
   return (
     <section id="skills" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 scroll-mt-20">
       <div className="text-center mb-12">
-        <h2 className="text-slate-900 dark:text-white text-4xl sm:text-5xl mb-4">Tech Stack & Tools</h2>
+        <p className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-500 tracking-widest uppercase text-sm mb-3">What I Use</p>
+        <h2 className="text-slate-900 dark:text-white text-4xl sm:text-5xl mb-4">Tech Stack &amp; Tools</h2>
         <p className="text-slate-600 dark:text-slate-300 text-lg">Technologies I work with daily</p>
       </div>
 

@@ -14,11 +14,16 @@ const navItems = [
   { label: 'Skills', href: '/skills' },
   { label: 'Experience', href: '/experience' },
   { label: 'Blogs', href: '/blogs' },
+  { label: 'Tools', href: '/tools' },
 ];
 
 export function Navigation() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
+
+  // The Tools page is a focused "app" experience with its own top bar and
+  // Home link, so the site-wide nav is hidden there.
+  if (pathname?.startsWith('/tools')) return null;
 
   const isActive = (href: string) =>
     href === '/' ? pathname === '/' : pathname.startsWith(href);

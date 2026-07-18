@@ -5,7 +5,7 @@ import { Reveal } from '@/components/Reveal';
 export const metadata: Metadata = {
   title: 'Skills',
   description:
-    'The tech stack and tools Karthik S works with daily — Python, Node.js, Next.js, AWS, Docker, Linux, and more.',
+    'The tech stack and tools Karthik S works with daily — Python, Node.js, .NET, Next.js, Angular, Apache Airflow, AWS, Docker, Linux, and more.',
 };
 
 export default function SkillsPage() {

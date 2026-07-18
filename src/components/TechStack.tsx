@@ -1,4 +1,4 @@
-import { Code2, Server, Cloud, Database, GitBranch } from 'lucide-react';
+import { Code2, Server, Cloud, Database, GitBranch, Layout, Workflow, Bot } from 'lucide-react';
 
 export function TechStack() {
   const categories = [
@@ -6,13 +6,31 @@ export function TechStack() {
       icon: Code2,
       title: 'Languages',
       gradient: 'from-blue-500 to-cyan-500',
-      skills: ['Python', 'JavaScript', 'TypeScript', 'SQL'],
+      skills: ['Python', 'JavaScript', 'TypeScript', 'C#', 'SQL'],
+    },
+    {
+      icon: Layout,
+      title: 'Frontend',
+      gradient: 'from-sky-500 to-indigo-500',
+      skills: ['Next.js', 'Angular', 'React'],
     },
     {
       icon: Server,
       title: 'Backend & APIs',
       gradient: 'from-indigo-500 to-blue-600',
-      skills: ['Node.js', 'Next.js', 'REST APIs'],
+      skills: ['Node.js', '.NET', 'REST APIs'],
+    },
+    {
+      icon: Workflow,
+      title: 'Data & Orchestration',
+      gradient: 'from-teal-500 to-emerald-500',
+      skills: ['Apache Airflow', 'ETL Pipelines'],
+    },
+    {
+      icon: Bot,
+      title: 'AI & Agents',
+      gradient: 'from-fuchsia-500 to-purple-600',
+      skills: ['Agent Development', 'LLM Integration', 'Prompt Engineering'],
     },
     {
       icon: Cloud,
@@ -28,9 +46,9 @@ export function TechStack() {
     },
     {
       icon: GitBranch,
-      title: 'OS & Tooling',
+      title: 'Tooling & Version Control',
       gradient: 'from-blue-600 to-purple-600',
-      skills: ['Linux', 'Shell Scripting', 'Git', 'Bitbucket'],
+      skills: ['Linux', 'Shell Scripting', 'Git', 'Bitbucket', 'Postman', 'Swagger / OpenAPI'],
     },
   ];
 

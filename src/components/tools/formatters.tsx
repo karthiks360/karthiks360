@@ -129,29 +129,43 @@ export function YamlConverter() {
 
 /* -------------------------------------------------------------- CSV<>JSON -- */
 
-function csvToJson(csv: string): string {
-    const rows = csv.trim().split(/\r?\n/).map((line) => {
-        const out: string[] = [];
-        let cur = '';
-        let inQ = false;
-        for (let i = 0; i < line.length; i++) {
-            const c = line[i];
-            if (inQ) {
-                if (c === '"' && line[i + 1] === '"') { cur += '"'; i++; }
-                else if (c === '"') inQ = false;
-                else cur += c;
-            } else if (c === '"') inQ = true;
-            else if (c === ',') { out.push(cur); cur = ''; }
-            else cur += c;
-        }
-        out.push(cur);
-        return out;
-    });
-    const [head, ...body] = rows;
+/**
+ * RFC 4180-style parser over the whole string, so a quoted field can hold
+ * commas, doubled quotes ("") and line breaks. Handles \n, \r\n and a BOM.
+ */
+export function parseCsv(csv: string): string[][] {
+    const src = csv.replace(/^﻿/, '');
+    const rows: string[][] = [];
+    let row: string[] = [];
+    let cur = '';
+    let inQ = false;
+    for (let i = 0; i < src.length; i++) {
+        const c = src[i];
+        if (inQ) {
+            if (c === '"') {
+                if (src[i + 1] === '"') { cur += '"'; i++; }
+                else inQ = false;
+            } else cur += c;
+        } else if (c === '"') inQ = true;
+        else if (c === ',') { row.push(cur); cur = ''; }
+        else if (c === '\n' || c === '\r') {
+            if (c === '\r' && src[i + 1] === '\n') i++;
+            row.push(cur); cur = '';
+            rows.push(row); row = [];
+        } else cur += c;
+    }
+    if (cur !== '' || row.length > 0) { row.push(cur); rows.push(row); }
+    // Blank lines (e.g. a trailing newline) are not records.
+    return rows.filter((r) => r.length > 1 || r[0] !== '');
+}
+
+export function csvToJson(csv: string): string {
+    const [head, ...body] = parseCsv(csv);
+    if (!head) return '[]';
     return JSON.stringify(body.map((r) => Object.fromEntries(head.map((h, i) => [h, r[i] ?? '']))), null, 2);
 }
 
-function jsonToCsv(json: string): string {
+export function jsonToCsv(json: string): string {
     const data = JSON.parse(json);
     const arr = Array.isArray(data) ? data : [data];
     if (arr.length === 0) return '';
@@ -193,30 +207,61 @@ export function CsvJsonConverter() {
 
 /* -------------------------------------------------------------- JSON→TS ---- */
 
-function jsonToTs(value: unknown, name = 'Root'): string {
+/**
+ * Infers interfaces from a JSON sample. Every element of an array is looked
+ * at (not just the first): primitives become a union, and objects are merged
+ * into one interface where a key missing from some elements is optional.
+ */
+export function jsonToTs(value: unknown, name = 'Root'): string {
     const interfaces: string[] = [];
+    const used = new Set<string>();
     const pascal = (s: string) => s.replace(/(^|_|-|\s)(\w)/g, (_, __, c) => c.toUpperCase());
+    const uniqueName = (base: string) => {
+        const root = base || 'Item';
+        let n = root;
+        for (let i = 2; used.has(n); i++) n = `${root}${i}`;
+        used.add(n);
+        return n;
+    };
+    const isObj = (v: unknown): v is Record<string, unknown> => !!v && typeof v === 'object' && !Array.isArray(v);
+    const wrapArray = (t: string) => (t.includes(' | ') ? `(${t})[]` : `${t}[]`);
 
-    function typeOf(v: unknown, key: string): string {
-        if (v === null) return 'null';
-        if (Array.isArray(v)) return v.length === 0 ? 'unknown[]' : `${typeOf(v[0], key)}[]`;
-        if (typeof v === 'object') {
-            const iName = pascal(key);
-            build(v as Record<string, unknown>, iName);
-            return iName;
+    // The type for a set of values that share a key (or are elements of one array).
+    function typeOfMany(values: unknown[], key: string): string {
+        const types = new Set<string>();
+        const objs = values.filter(isObj);
+        if (objs.length > 0) types.add(buildMerged(objs, key));
+        for (const v of values) {
+            if (isObj(v)) continue;
+            if (v === null) types.add('null');
+            else if (Array.isArray(v)) types.add(v.length === 0 ? 'unknown[]' : wrapArray(typeOfMany(v, key)));
+            else types.add(typeof v);
         }
-        return typeof v as string;
+        return types.size === 0 ? 'unknown' : [...types].join(' | ');
     }
-    function build(obj: Record<string, unknown>, iName: string) {
-        const lines = Object.entries(obj).map(([k, v]) => {
+    function buildMerged(objs: Record<string, unknown>[], key: string): string {
+        const iName = uniqueName(pascal(key));
+        const keys = Array.from(new Set(objs.flatMap((o) => Object.keys(o))));
+        const lines = keys.map((k) => {
+            const present = objs.filter((o) => k in o);
+            const optional = present.length < objs.length;
             const safeKey = /^[A-Za-z_$][\w$]*$/.test(k) ? k : JSON.stringify(k);
-            return `  ${safeKey}: ${typeOf(v, k)};`;
+            return `  ${safeKey}${optional ? '?' : ''}: ${typeOfMany(present.map((o) => o[k]), k)};`;
         });
         interfaces.push(`interface ${iName} {\n${lines.join('\n')}\n}`);
+        return iName;
     }
-    if (value && typeof value === 'object' && !Array.isArray(value)) build(value as Record<string, unknown>, pascal(name));
-    else return `type ${pascal(name)} = ${typeOf(value, name)};`;
-    return interfaces.reverse().join('\n\n');
+
+    const rootName = pascal(name) || 'Root';
+    if (isObj(value)) {
+        buildMerged([value], rootName);
+        return interfaces.reverse().join('\n\n');
+    }
+    used.add(rootName);
+    const t = Array.isArray(value)
+        ? (value.length === 0 ? 'unknown[]' : wrapArray(typeOfMany(value, `${rootName}Item`)))
+        : typeOfMany([value], rootName);
+    return [`type ${rootName} = ${t};`, ...interfaces.reverse()].join('\n\n');
 }
 
 export function JsonToTs() {
@@ -235,15 +280,31 @@ export function JsonToTs() {
 
 /* --------------------------------------------------------------- SQL fmt --- */
 
-const SQL_KEYWORDS = ['SELECT', 'FROM', 'WHERE', 'INNER JOIN', 'LEFT JOIN', 'RIGHT JOIN', 'JOIN', 'GROUP BY', 'ORDER BY', 'HAVING', 'LIMIT', 'OFFSET', 'UNION', 'VALUES', 'INSERT INTO', 'UPDATE', 'SET', 'DELETE FROM', 'AND', 'OR', 'ON'];
+// Longest phrases first: the alternation is leftmost-first, so "INNER JOIN"
+// must win over "JOIN" and "DELETE FROM" over "FROM" at the same position.
+const SQL_KEYWORDS = ['INNER JOIN', 'LEFT JOIN', 'RIGHT JOIN', 'INSERT INTO', 'DELETE FROM', 'GROUP BY', 'ORDER BY', 'SELECT', 'FROM', 'WHERE', 'JOIN', 'HAVING', 'LIMIT', 'OFFSET', 'UNION', 'VALUES', 'UPDATE', 'SET', 'AND', 'OR', 'ON'];
+const SQL_KEYWORD_RE = new RegExp(`\\s*\\b(${SQL_KEYWORDS.join('|')})\\b`, 'gi');
+const SQL_INDENTED = new Set(['AND', 'OR', 'ON']);
+// Single-, double- and backtick-quoted literals ('' and \ escapes included).
+// Splitting on this leaves literals at the odd indices so they are never
+// touched: `WHERE name = 'on sale'` must keep its value intact.
+const SQL_LITERAL_RE = /('(?:[^'\\]|\\.|'')*'|"(?:[^"\\]|\\.)*"|`[^`]*`)/;
 
-function formatSql(sql: string): string {
-    let s = sql.replace(/\s+/g, ' ').trim();
-    for (const kw of SQL_KEYWORDS) {
-        const re = new RegExp(`\\s*\\b${kw}\\b`, 'gi');
-        s = s.replace(re, (kw === 'AND' || kw === 'OR' || kw === 'ON' ? '\n  ' : '\n') + kw.toUpperCase());
-    }
-    return s.replace(/,\s*/g, ',\n  ').replace(/^\n/, '').trim();
+export function formatSql(sql: string): string {
+    const out = sql
+        .split(SQL_LITERAL_RE)
+        .map((part, i) => {
+            if (i % 2 === 1) return part;
+            return part
+                .replace(/\s+/g, ' ')
+                .replace(SQL_KEYWORD_RE, (_, kw: string) => {
+                    const up = kw.toUpperCase().replace(/\s+/g, ' ');
+                    return (SQL_INDENTED.has(up) ? '\n  ' : '\n') + up;
+                })
+                .replace(/,\s*/g, ',\n  ');
+        })
+        .join('');
+    return out.replace(/^\s*\n/, '').trim();
 }
 
 export function SqlFormatter() {
@@ -254,18 +315,48 @@ export function SqlFormatter() {
 
 /* --------------------------------------------------------------- XML fmt --- */
 
-function formatXml(xml: string): string {
+const ELEMENT_NODE = 1, TEXT_NODE = 3, CDATA_NODE = 4, PI_NODE = 7, COMMENT_NODE = 8;
+
+/** Pretty-prints by walking the parsed DOM, so comments, CDATA and `<` inside text survive. */
+export function formatXml(xml: string): string {
     const doc = new DOMParser().parseFromString(xml, 'application/xml');
     if (doc.querySelector('parsererror')) throw new Error('Invalid XML.');
     const PADDING = '  ';
-    let formatted = '';
-    let pad = 0;
-    xml.replace(/>\s*</g, '><').replace(/</g, '\n<').split('\n').filter(Boolean).forEach((node) => {
-        if (/^<\/\w/.test(node)) pad -= 1;
-        formatted += PADDING.repeat(Math.max(pad, 0)) + node + '\n';
-        if (/^<\w[^>]*[^/]>$/.test(node) && !/^<.*<\/.*>$/.test(node)) pad += 1;
-    });
-    return formatted.trim();
+    const lines: string[] = [];
+    const decl = xml.match(/^\s*<\?xml[^>]*\?>/);
+    if (decl) lines.push(decl[0].trim());
+
+    const escText = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const attrs = (el: Element) =>
+        Array.from(el.attributes).map((a) => ` ${a.name}="${escText(a.value).replace(/"/g, '&quot;')}"`).join('');
+
+    const walk = (node: Node, depth: number) => {
+        const indent = PADDING.repeat(depth);
+        switch (node.nodeType) {
+            case ELEMENT_NODE: {
+                const el = node as Element;
+                const tag = el.nodeName;
+                const kids = Array.from(el.childNodes).filter((n) => !(n.nodeType === TEXT_NODE && !(n.textContent ?? '').trim()));
+                if (kids.length === 0) {
+                    lines.push(`${indent}<${tag}${attrs(el)}/>`);
+                } else if (kids.length === 1 && kids[0].nodeType === TEXT_NODE) {
+                    lines.push(`${indent}<${tag}${attrs(el)}>${escText((kids[0].textContent ?? '').trim())}</${tag}>`);
+                } else {
+                    lines.push(`${indent}<${tag}${attrs(el)}>`);
+                    kids.forEach((k) => walk(k, depth + 1));
+                    lines.push(`${indent}</${tag}>`);
+                }
+                return;
+            }
+            case TEXT_NODE: lines.push(indent + escText((node.textContent ?? '').trim())); return;
+            case CDATA_NODE: lines.push(`${indent}<![CDATA[${node.textContent ?? ''}]]>`); return;
+            case COMMENT_NODE: lines.push(`${indent}<!--${node.textContent ?? ''}-->`); return;
+            case PI_NODE: lines.push(`${indent}<?${(node as ProcessingInstruction).target} ${node.textContent ?? ''}?>`); return;
+            default: return; // doctype etc.
+        }
+    };
+    Array.from(doc.childNodes).forEach((n) => walk(n, 0));
+    return lines.join('\n');
 }
 
 export function XmlFormatter() {

@@ -28,7 +28,7 @@ export const USAGE: Record<string, Usage> = {
             'Use a channel preset or fill source, medium and campaign yourself.',
             'Copy the URL, grab its QR, or export your campaigns as CSV.',
         ],
-        tips: ['Keep “Normalize” on — GA4 treats “Facebook” and “facebook” as different sources.', 'Existing query parameters on the URL are preserved.'],
+        tips: ['Keep “Normalize” on — GA4 treats “Facebook” and “facebook” as different sources.', 'Existing query parameters on the URL are preserved.', 'Recent links are saved in your browser for quick reuse.'],
     },
     'qr-generator': {
         summary: 'Turn a URL, WiFi network, contact card and more into a scannable QR code.',
@@ -42,16 +42,17 @@ export const USAGE: Record<string, Usage> = {
     'telegram-redirect': {
         summary: 'Open a Telegram chat by username or phone without saving the contact.',
         steps: ['Choose Username or Phone.', 'Enter the handle/number and an optional message.', 'Open Telegram, copy the link, or share the QR.'],
-        tips: ['Usernames are 5+ characters — the leading @ is optional.'],
+        tips: ['Usernames are 5+ characters — the leading @ is optional.', 'Recent links are saved in your browser for quick reuse.'],
     },
     'mailto-generator': {
         summary: 'Build a mailto: link that opens a pre-composed email.',
         steps: ['Enter the recipient (and optional cc/bcc).', 'Add a subject and body.', 'Open it in your mail app, copy the link, or share the QR.'],
-        tips: ['Great for “Email me” buttons on a website.'],
+        tips: ['Great for “Email me” buttons on a website.', 'Recent links are saved in your browser for quick reuse.'],
     },
     'sms-generator': {
         summary: 'Create an sms: link that opens the messaging app with text pre-filled.',
         steps: ['Pick a country code and enter the number.', 'Add an optional message.', 'Open Messages, copy the link, or share the QR.'],
+        tips: ['Recent links are saved in your browser for quick reuse.'],
     },
     'case-converter': {
         summary: 'Convert text between common casing styles.',
@@ -60,7 +61,7 @@ export const USAGE: Record<string, Usage> = {
     slugify: {
         summary: 'Turn a title into a clean, URL-safe slug.',
         steps: ['Type a title or heading.', 'The slug updates live.', 'Copy it for use in a URL or filename.'],
-        tips: ['Accents are stripped and spaces/symbols become single hyphens.'],
+        tips: ['Accents are stripped and spaces/symbols become single hyphens.', 'Letters in any script are kept, so non-English titles still produce a slug.'],
     },
     'text-counter': {
         summary: 'Count words, characters, lines and byte size of text.',
@@ -70,7 +71,7 @@ export const USAGE: Record<string, Usage> = {
     'markdown-preview': {
         summary: 'Write Markdown and see the rendered HTML side by side.',
         steps: ['Edit Markdown on the left.', 'The preview renders live on the right.', 'Copy the generated HTML if you need it.'],
-        tips: ['Supports headings, lists, links, code, blockquotes and tables.'],
+        tips: ['Supports headings, lists, links, code, blockquotes and tables.', 'Raw HTML in the Markdown is sanitised before it is rendered or exported.'],
     },
     base64: {
         summary: 'Encode text to Base64 or decode Base64 back to text.',
@@ -117,20 +118,22 @@ export const USAGE: Record<string, Usage> = {
     'csv-json': {
         summary: 'Convert tabular CSV to JSON and back.',
         steps: ['Pick a direction.', 'Paste CSV (with a header row) or a JSON array of objects.', 'Copy the result.'],
-        tips: ['Quoted fields containing commas are handled correctly.'],
+        tips: ['Quoted fields may contain commas, doubled quotes and line breaks.', 'The first row is used as the header.'],
     },
     'json-ts': {
         summary: 'Generate TypeScript interfaces from a JSON sample.',
         steps: ['Paste a representative JSON object.', 'Copy the generated interfaces.'],
-        tips: ['Nested objects become their own named interfaces.'],
+        tips: ['Nested objects become their own named interfaces.', 'Every element of an array is inspected — keys missing from some objects become optional.'],
     },
     'sql-formatter': {
         summary: 'Reformat a SQL query onto readable, keyword-aligned lines.',
         steps: ['Paste a SQL statement.', 'Copy the formatted query.'],
+        tips: ['Text inside quoted string literals is never changed.', 'This is a simple keyword-based layout, not a full SQL parser — check the result on dialect-specific or very complex queries.'],
     },
     'xml-formatter': {
         summary: 'Indent and validate XML.',
         steps: ['Paste XML.', 'Copy the indented output; malformed XML is flagged.'],
+        tips: ['Comments and CDATA sections are preserved.'],
     },
     'query-string': {
         summary: 'Convert a URL query string to JSON and back.',
@@ -190,7 +193,7 @@ export const USAGE: Record<string, Usage> = {
     regex: {
         summary: 'Test a regular expression against sample text with live highlighting.',
         steps: ['Enter a pattern and flags.', 'Type the test string.', 'Matches are highlighted; capture groups from the first match are listed.'],
-        tips: ['The global flag is added automatically so all matches highlight.'],
+        tips: ['The global flag is added automatically so all matches highlight.', 'Test strings are capped at 20,000 characters so a slow pattern cannot freeze the page.'],
     },
     cidr: {
         summary: 'Break down a CIDR block into its network details.',
@@ -212,5 +215,6 @@ export const USAGE: Record<string, Usage> = {
     diff: {
         summary: 'Compare two blocks of text line by line.',
         steps: ['Paste the original on the left and the changed version on the right.', 'Added lines are green, removed lines are red.'],
+        tips: ['Each side is capped at 2,000 lines.'],
     },
 };

@@ -31,8 +31,32 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm test
+
       - name: Build Next.js app
         run: npm run build
+
+      - name: Check exported metadata
+        # Every page must canonicalise to itself, not the homepage, and the
+        # routing / OG assets the live site depends on must be in the export.
+        run: |
+          set -euo pipefail
+          test -f out/CNAME
+          test -f out/.nojekyll
+          test -f out/404.html
+          test -f out/og.png
+          test -f out/robots.txt
+          test -f out/sitemap.xml
+          for route in about skills experience blogs tools pay; do
+            test -f "out/$route/index.html"
+            grep -q "rel=\"canonical\" href=\"https://karthiks360.com/$route/\"" "out/$route/index.html"
+          done
+          grep -q 'rel="canonical" href="https://karthiks360.com/"' out/index.html
+          grep -q 'name="robots" content="noindex' out/pay/index.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -49,3 +73,24 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Smoke test live site
+        # Pages can take a minute to serve the new version; retry a few times.
+        run: |
+          set -uo pipefail
+          base="https://karthiks360.com"
+          check() {
+            local path="$1" expect="$2"
+            local code
+            code=$(curl -s -o /dev/null -w '%{http_code}' "$base$path")
+            [ "$code" = "$expect" ] || { echo "FAIL $path -> $code (want $expect)"; return 1; }
+            echo "ok   $path -> $code"
+          }
+          for attempt in 1 2 3 4 5 6; do
+            if check / 200 && check /tools/ 200 && check /tools 301 && check /pay/ 200 && check /og.png 200 \
+               && [ "$(curl -s -o /dev/null -w '%{content_type}' "$base/og.png")" = "image/png" ]; then
+              echo "smoke test passed"; exit 0
+            fi
+            echo "attempt $attempt failed; retrying in 30s"; sleep 30
+          done
+          echo "smoke test failed after retries"; exit 1

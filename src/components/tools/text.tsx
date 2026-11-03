@@ -3,18 +3,24 @@
 import { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { marked } from 'marked';
+import DOMPurify from 'dompurify';
 import { Maximize2, X } from 'lucide-react';
 import { CopyButton, ResultCard, ToolActions, download, inputClass, labelClass, monoTextareaClass, textareaClass } from './shared';
 
 /* -------------------------------------------------------------- Slugify ---- */
 
-function slugify(s: string): string {
+/**
+ * Unicode-aware: letters, marks and digits from any script are kept (so a
+ * Kannada or Hindi title still yields a slug); only Latin combining accents
+ * are stripped after NFKD so "café" → "cafe".
+ */
+export function slugify(s: string): string {
     return s
         .normalize('NFKD')
-        .replace(/[̀-ͯ]/g, '') // strip diacritics
+        .replace(/[̀-ͯ]/g, '') // strip Latin diacritics
         .toLowerCase()
         .trim()
-        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/[^\p{L}\p{M}\p{N}\s_-]/gu, '')
         .replace(/[\s_-]+/g, '-')
         .replace(/^-+|-+$/g, '');
 }
@@ -117,11 +123,19 @@ export function TextCounter() {
 
 /* --------------------------------------------------------- Markdown prev --- */
 
+export function renderMarkdown(md: string): string {
+    return DOMPurify.sanitize(marked.parse(md, { async: false }) as string);
+}
+
 export function MarkdownPreview() {
     const [md, setMd] = useState('# Hello\n\nType **Markdown** on the left and see it _rendered_ here.\n\n- Lists\n- `code`\n- [links](https://karthiks360.com)');
     const [full, setFull] = useState(false);
 
-    const html = useMemo(() => marked.parse(md, { async: false }) as string, [md]);
+    // marked does not sanitise. Today the only input is this textarea (self-XSS
+    // at worst), but the preview is injected via dangerouslySetInnerHTML and
+    // the HTML is exported, so it is always passed through DOMPurify — and any
+    // future input from the URL/hash/storage must stay behind this line.
+    const html = useMemo(() => renderMarkdown(md), [md]);
 
     // Close the fullscreen overlay on Escape and lock body scroll while open.
     useEffect(() => {

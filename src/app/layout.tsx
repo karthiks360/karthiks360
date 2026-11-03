@@ -34,21 +34,23 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'Karthik S', url: siteUrl }],
   creator: 'Karthik S',
-  alternates: {
-    canonical: siteUrl,
-  },
+  // No `alternates.canonical` / `openGraph.url` here on purpose: anything set
+  // on the root layout is inherited by every route, which made each subpage
+  // declare itself a duplicate of the homepage. Each page sets its own.
   openGraph: {
     type: 'website',
-    url: siteUrl,
     siteName: 'Karthik S',
     title: 'Karthik S — Software Developer',
     description,
     locale: 'en_US',
+    // A static PNG with an extension so GitHub Pages serves it as image/png.
+    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'Karthik S — Software Developer' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Karthik S — Software Developer',
     description,
+    images: ['/og.png'],
   },
   robots: {
     index: true,

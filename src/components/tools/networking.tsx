@@ -14,6 +14,10 @@ import {
 
 /* ----------------------------------------------------------- Regex tester -- */
 
+// Matching runs synchronously on the main thread, so very large inputs (or a
+// catastrophically backtracking pattern on them) would freeze the tab.
+export const MAX_REGEX_TEXT = 20_000;
+
 export function RegexTester() {
     const [pattern, setPattern] = useState('\\b\\w+@\\w+\\.\\w+\\b');
     const [flags, setFlags] = useState('g');
@@ -22,6 +26,9 @@ export function RegexTester() {
 
     const { matches, error, re } = useMemo(() => {
         if (!pattern) return { matches: [] as RegExpMatchArray[], error: '', re: null as RegExp | null };
+        if (text.length > MAX_REGEX_TEXT) {
+            return { matches: [], error: `Test string is limited to ${MAX_REGEX_TEXT.toLocaleString()} characters.`, re: null };
+        }
         try {
             const re = new RegExp(pattern, flags.includes('g') ? flags : flags + 'g');
             return { matches: Array.from(text.matchAll(re)), error: '', re };
@@ -117,7 +124,7 @@ export function RegexTester() {
 
 /* --------------------------------------------------------------- CIDR ------ */
 
-function ipToInt(ip: string): number | null {
+export function ipToInt(ip: string): number | null {
     const parts = ip.split('.');
     if (parts.length !== 4) return null;
     let n = 0;
@@ -128,7 +135,7 @@ function ipToInt(ip: string): number | null {
     }
     return n >>> 0;
 }
-const intToIp = (n: number) => [24, 16, 8, 0].map((s) => (n >>> s) & 255).join('.');
+export const intToIp = (n: number) => [24, 16, 8, 0].map((s) => (n >>> s) & 255).join('.');
 
 export function CidrCalculator() {
     const [cidr, setCidr] = useState('192.168.1.0/24');
@@ -189,13 +196,14 @@ export function CidrCalculator() {
 
 /* ----------------------------------------------------------- UA parser ----- */
 
-function parseUa(ua: string) {
+export function parseUa(ua: string) {
     const browser =
         /Edg\//.test(ua) ? 'Edge' : /OPR\//.test(ua) ? 'Opera' : /Firefox\//.test(ua) ? 'Firefox' :
         /Chrome\//.test(ua) ? 'Chrome' : /Safari\//.test(ua) ? 'Safari' : 'Unknown';
+    // iPhone/iPad UAs contain "like Mac OS X", so iOS must be checked first.
     const os =
-        /Windows NT/.test(ua) ? 'Windows' : /Mac OS X/.test(ua) ? 'macOS' : /Android/.test(ua) ? 'Android' :
-        /(iPhone|iPad|iOS)/.test(ua) ? 'iOS' : /Linux/.test(ua) ? 'Linux' : 'Unknown';
+        /Windows NT/.test(ua) ? 'Windows' : /(iPhone|iPad|iOS)/.test(ua) ? 'iOS' : /Mac OS X/.test(ua) ? 'macOS' :
+        /Android/.test(ua) ? 'Android' : /Linux/.test(ua) ? 'Linux' : 'Unknown';
     const engine = /Gecko\/\d/.test(ua) && /Firefox/.test(ua) ? 'Gecko' : /AppleWebKit/.test(ua) ? 'WebKit / Blink' : 'Unknown';
     const mobile = /Mobi|Android|iPhone/.test(ua) ? 'Yes' : 'No';
     return { browser, os, engine, mobile };
@@ -344,9 +352,12 @@ export function TimestampConverter() {
 
 /* ------------------------------------------------------------ Diff viewer -- */
 
-type DiffLine = { type: 'same' | 'add' | 'remove'; text: string };
+export type DiffLine = { type: 'same' | 'add' | 'remove'; text: string };
 
-function diffLines(a: string[], b: string[]): DiffLine[] {
+// The LCS table is O(n·m); two multi-thousand-line pastes would lock the tab.
+export const MAX_DIFF_LINES = 2_000;
+
+export function diffLines(a: string[], b: string[]): DiffLine[] {
     const n = a.length, m = b.length;
     const dp: number[][] = Array.from({ length: n + 1 }, () => new Array(m + 1).fill(0));
     for (let i = n - 1; i >= 0; i--)
@@ -368,9 +379,13 @@ export function DiffViewer() {
     const [left, setLeft] = useState('');
     const [right, setRight] = useState('');
 
-    const lines = useMemo(() => {
-        if (!left && !right) return [] as DiffLine[];
-        return diffLines(left.split('\n'), right.split('\n'));
+    const { lines, error } = useMemo(() => {
+        if (!left && !right) return { lines: [] as DiffLine[], error: '' };
+        const a = left.split('\n'), b = right.split('\n');
+        if (a.length > MAX_DIFF_LINES || b.length > MAX_DIFF_LINES) {
+            return { lines: [] as DiffLine[], error: `Each side is limited to ${MAX_DIFF_LINES.toLocaleString()} lines.` };
+        }
+        return { lines: diffLines(a, b), error: '' };
     }, [left, right]);
 
     const added = lines.filter((l) => l.type === 'add').length;
@@ -398,7 +413,9 @@ export function DiffViewer() {
             </div>
 
             <ResultCard>
-                {lines.length === 0 ? (
+                {error ? (
+                    <ToolError>{error}</ToolError>
+                ) : lines.length === 0 ? (
                     <EmptyHint text="Paste text in both boxes to see the differences." />
                 ) : (
                     <>

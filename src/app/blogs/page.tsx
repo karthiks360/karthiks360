@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   title: 'Blogs',
   description:
     'Writing on backend development, cloud, DevOps, and building AI-driven security platforms — coming soon.',
+  alternates: { canonical: '/blogs/' },
+  openGraph: { url: '/blogs/' },
 };
 
 export default function BlogsPage() {

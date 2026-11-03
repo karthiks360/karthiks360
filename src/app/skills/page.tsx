@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   title: 'Skills',
   description:
     'The tech stack and tools Karthik S works with daily — Python, Node.js, .NET, Next.js, Angular, Apache Airflow, AWS, Docker, Linux, and more.',
+  alternates: { canonical: '/skills/' },
+  openGraph: { url: '/skills/' },
 };
 
 export default function SkillsPage() {

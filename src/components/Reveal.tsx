@@ -27,7 +27,6 @@ export function Reveal({
     // show immediately. This synchronous set mirrors the mount pattern in
     // ThemeToggle and is intentional.
     if (!el || reducedMotion || typeof IntersectionObserver === 'undefined') {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setVisible(true);
       return;
     }

@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   title: 'About',
   description:
     'Karthik S — a software developer focused on backend development, cloud deployment, and infrastructure automation.',
+  alternates: { canonical: '/about/' },
+  openGraph: { url: '/about/' },
 };
 
 export default function AboutPage() {

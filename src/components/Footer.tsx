@@ -1,4 +1,5 @@
 import { Github, Linkedin, Mail } from 'lucide-react';
+import { Year } from './Year';
 
 export function Footer() {
   const socialLinks = [
@@ -48,7 +49,7 @@ export function Footer() {
 
           {/* Copyright */}
           <div className="text-center space-y-2">
-            <p className="text-slate-400">© {new Date().getFullYear()} Karthik S — karthiks360.com</p>
+            <p className="text-slate-400">© <Year /> Karthik S — karthiks360.com</p>
             <p className="text-slate-500 text-sm">All rights reserved</p>
           </div>
         </div>

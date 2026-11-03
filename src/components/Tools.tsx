@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
 import {
     MessageCircle, Link2, QrCode,
     Type, Link, AlignLeft, FileText,
@@ -17,27 +18,60 @@ import { Avatar } from './Avatar';
 import { ThemeToggle } from './ThemeToggle';
 import { USAGE } from './tools/usage';
 
-import { WhatsAppTool } from './tools/WhatsAppTool';
-import { MailtoTool } from './tools/MailtoTool';
-import { SmsTool } from './tools/SmsTool';
-import { TelegramTool } from './tools/TelegramTool';
-import { CaseConverter } from './tools/CaseConverter';
-import { Base64Tool } from './tools/Base64Tool';
-import { PasswordGenerator } from './tools/PasswordGenerator';
-import { QrGenerator } from './tools/QrGenerator';
-import { UtmBuilder } from './tools/UtmBuilder';
-import { JwtDecoder, UrlEncoder, HashGenerator, HtmlEntities, HexBinary, EscapeTool } from './tools/encoders';
-import {
-    JsonFormatter, YamlConverter, CsvJsonConverter, JsonToTs, SqlFormatter, XmlFormatter, QueryStringTool,
-} from './tools/formatters';
-import { UuidGenerator, LoremIpsum, CronHelper, SnippetBuilder, MockData } from './tools/generators';
-import {
-    ColorConverter, BoxShadowGenerator, GradientGenerator, CubicBezier, ViewportTester, ImageToDataUri,
-} from './tools/webcss';
-import {
-    RegexTester, CidrCalculator, UaParser, HttpStatusLookup, TimestampConverter, DiffViewer,
-} from './tools/networking';
-import { Slugify, TextCounter, MarkdownPreview } from './tools/text';
+// Every tool body is code-split: the launcher ships only the grid, and the
+// heavier libraries (marked, js-yaml, qrcode, cron-parser, …) load the first
+// time their tool is opened.
+function ToolLoading() {
+    return <div className="h-40 rounded-xl bg-slate-100 dark:bg-slate-900/60 animate-pulse" aria-hidden />;
+}
+function lazyTool<M extends object, K extends keyof M>(loader: () => Promise<M>, name: K) {
+    return dynamic(() => loader().then((m) => ({ default: m[name] as unknown as React.ComponentType })), {
+        loading: ToolLoading,
+    });
+}
+
+const WhatsAppTool = lazyTool(() => import('./tools/WhatsAppTool'), 'WhatsAppTool');
+const MailtoTool = lazyTool(() => import('./tools/MailtoTool'), 'MailtoTool');
+const SmsTool = lazyTool(() => import('./tools/SmsTool'), 'SmsTool');
+const TelegramTool = lazyTool(() => import('./tools/TelegramTool'), 'TelegramTool');
+const CaseConverter = lazyTool(() => import('./tools/CaseConverter'), 'CaseConverter');
+const Base64Tool = lazyTool(() => import('./tools/Base64Tool'), 'Base64Tool');
+const PasswordGenerator = lazyTool(() => import('./tools/PasswordGenerator'), 'PasswordGenerator');
+const QrGenerator = lazyTool(() => import('./tools/QrGenerator'), 'QrGenerator');
+const UtmBuilder = lazyTool(() => import('./tools/UtmBuilder'), 'UtmBuilder');
+const JwtDecoder = lazyTool(() => import('./tools/encoders'), 'JwtDecoder');
+const UrlEncoder = lazyTool(() => import('./tools/encoders'), 'UrlEncoder');
+const HashGenerator = lazyTool(() => import('./tools/encoders'), 'HashGenerator');
+const HtmlEntities = lazyTool(() => import('./tools/encoders'), 'HtmlEntities');
+const HexBinary = lazyTool(() => import('./tools/encoders'), 'HexBinary');
+const EscapeTool = lazyTool(() => import('./tools/encoders'), 'EscapeTool');
+const JsonFormatter = lazyTool(() => import('./tools/formatters'), 'JsonFormatter');
+const YamlConverter = lazyTool(() => import('./tools/formatters'), 'YamlConverter');
+const CsvJsonConverter = lazyTool(() => import('./tools/formatters'), 'CsvJsonConverter');
+const JsonToTs = lazyTool(() => import('./tools/formatters'), 'JsonToTs');
+const SqlFormatter = lazyTool(() => import('./tools/formatters'), 'SqlFormatter');
+const XmlFormatter = lazyTool(() => import('./tools/formatters'), 'XmlFormatter');
+const QueryStringTool = lazyTool(() => import('./tools/formatters'), 'QueryStringTool');
+const UuidGenerator = lazyTool(() => import('./tools/generators'), 'UuidGenerator');
+const LoremIpsum = lazyTool(() => import('./tools/generators'), 'LoremIpsum');
+const CronHelper = lazyTool(() => import('./tools/generators'), 'CronHelper');
+const SnippetBuilder = lazyTool(() => import('./tools/generators'), 'SnippetBuilder');
+const MockData = lazyTool(() => import('./tools/generators'), 'MockData');
+const ColorConverter = lazyTool(() => import('./tools/webcss'), 'ColorConverter');
+const BoxShadowGenerator = lazyTool(() => import('./tools/webcss'), 'BoxShadowGenerator');
+const GradientGenerator = lazyTool(() => import('./tools/webcss'), 'GradientGenerator');
+const CubicBezier = lazyTool(() => import('./tools/webcss'), 'CubicBezier');
+const ViewportTester = lazyTool(() => import('./tools/webcss'), 'ViewportTester');
+const ImageToDataUri = lazyTool(() => import('./tools/webcss'), 'ImageToDataUri');
+const RegexTester = lazyTool(() => import('./tools/networking'), 'RegexTester');
+const CidrCalculator = lazyTool(() => import('./tools/networking'), 'CidrCalculator');
+const UaParser = lazyTool(() => import('./tools/networking'), 'UaParser');
+const HttpStatusLookup = lazyTool(() => import('./tools/networking'), 'HttpStatusLookup');
+const TimestampConverter = lazyTool(() => import('./tools/networking'), 'TimestampConverter');
+const DiffViewer = lazyTool(() => import('./tools/networking'), 'DiffViewer');
+const Slugify = lazyTool(() => import('./tools/text'), 'Slugify');
+const TextCounter = lazyTool(() => import('./tools/text'), 'TextCounter');
+const MarkdownPreview = lazyTool(() => import('./tools/text'), 'MarkdownPreview');
 
 /**
  * A searchable collection of small web utilities, grouped by category.
@@ -142,13 +176,21 @@ const TOOLS_BY_ID = Object.fromEntries(TOOLS.map((t) => [t.id, t]));
 export function Tools() {
     const [query, setQuery] = useState('');
     const [activeId, setActiveId] = useState<string | null>(null);
+    // True only while the open tool's history entry was pushed by `openTool`
+    // from this page. A deep link (/tools/#regex from Slack, LinkedIn, …) has
+    // another site as its previous entry, so going "back" would leave the site.
+    const openedFromLauncher = useRef(false);
 
     // Sync the open tool with the URL hash so the browser back button, refresh,
-    // and shareable links all work (e.g. /tools#regex).
-    useEffect(() => {
+    // and shareable links all work (e.g. /tools/#regex). A layout effect runs
+    // before first paint, so a deep link shows the tool straight away instead
+    // of flashing the launcher first.
+    useLayoutEffect(() => {
         const readHash = () => {
             const id = window.location.hash.replace(/^#/, '');
-            setActiveId(id && TOOLS_BY_ID[id] ? id : null);
+            const valid = id && TOOLS_BY_ID[id] ? id : null;
+            if (!valid) openedFromLauncher.current = false;
+            setActiveId(valid);
         };
         readHash();
         window.addEventListener('hashchange', readHash);
@@ -156,21 +198,23 @@ export function Tools() {
     }, []);
 
     const openTool = (id: string) => {
+        openedFromLauncher.current = true;
         window.location.hash = id;
         setActiveId(id);
         window.scrollTo({ top: 0 });
     };
 
     const closeTool = () => {
-        // Prefer history.back so the launcher scroll position is restored; fall
-        // back to clearing the hash if there's nowhere to go back to.
-        if (window.location.hash) {
+        if (openedFromLauncher.current) {
+            // We pushed this entry, so going back lands on the launcher with its
+            // scroll position restored; the hashchange listener clears activeId.
+            openedFromLauncher.current = false;
             history.back();
+            return;
         }
-        window.setTimeout(() => {
-            if (window.location.hash) window.location.hash = '';
-            setActiveId(null);
-        }, 0);
+        // Deep-linked: swap the hash out in place and never leave the page.
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+        setActiveId(null);
     };
 
     const activeTool = activeId ? TOOLS_BY_ID[activeId] : null;
@@ -288,7 +332,7 @@ export function Tools() {
                             if (items.length === 0) return null;
                             return (
                                 <div key={cat} className="space-y-4">
-                                    <h2 className="text-slate-400 dark:text-slate-500 text-sm font-semibold uppercase tracking-wider">
+                                    <h2 className="text-slate-500 dark:text-slate-400 text-sm font-semibold uppercase tracking-wider">
                                         {cat}
                                     </h2>
                                     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

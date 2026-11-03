@@ -5,12 +5,12 @@ export const metadata: Metadata = {
   title: 'Tools',
   description:
     'A suite of small developer utilities by Karthik S — JSON/YAML/CSV converters, JWT decoder, hash & Base64 tools, regex tester, CIDR calculator, cron helper, QR & UUID generators, and more. Everything runs in your browser.',
+  alternates: { canonical: '/tools/' },
+  openGraph: { url: '/tools/' },
 };
 
-// Note: this page is intentionally NOT wrapped in <Reveal>. Reveal keeps its
-// children at opacity-0 until an IntersectionObserver reports ~12% visibility;
-// this page is far taller than the viewport, so that ratio is never reached and
-// the content would stay invisible.
+// Not wrapped in <Reveal>: the launcher is the whole page, so there is nothing
+// to fade in, and the open-tool view swaps content on hash change.
 export default function ToolsPage() {
   return <Tools />;
 }
